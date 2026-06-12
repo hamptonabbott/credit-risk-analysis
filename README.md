@@ -2,7 +2,7 @@
 
 Predicting consumer-loan default from borrower and loan attributes — built with **SQL**, **Python**, and **Tableau**.
 
-> **TL;DR:** Designed a normalized SQL database of **1.35M** loans, quantified default risk by grade/purpose/segment, and trained models reaching **`<0.__>` ROC-AUC** to predict default. [Live dashboard](<TABLEAU_LINK>)
+> **TL;DR:** Designed a normalized SQL database of **1.35M** loans, quantified default risk by grade/purpose/segment, and trained models reaching **0.716 ROC-AUC** to predict default — with a borrower-only variant that edges out Lending Club's own sub-grade ranking. [Live dashboard](<TABLEAU_LINK>)
 
 ---
 
@@ -34,10 +34,11 @@ Lenders make money by pricing risk correctly. This project asks: **which borrowe
 - Small-business loans are the riskiest purpose (**29.7%**), and renters out-default mortgage holders within every grade.
 - Employment length barely moves default risk (20.5% → 18.8% across 0–10+ years) — a useful "what *doesn't* predict" result.
 
-**From the models** (_fill in after the modeling phase_):
+**From the models** ([notebooks/model.ipynb](notebooks/model.ipynb), [src/train.py](src/train.py)):
 
-- Top default drivers: **`<feature 1>`, `<feature 2>`, `<feature 3>`**.
-- Best model: **`<model>`**, ROC-AUC **`<0.__>`**, KS **`<0.__>`**.
+- Best model: **gradient boosting**, ROC-AUC **0.716**, KS **0.314** — catching **68%** of defaults at the 0.5 threshold while flagging 36% of good loans (the cost trade-off: a missed default loses principal, a flagged good borrower loses interest income).
+- Top default drivers (standardized logistic coefficients): **grade**, **60-month term**, **interest rate**, then **FICO** (protective) and **DTI** — the same story the SQL analysis told.
+- **Beating the lender:** a borrower-only model (no grade, no interest rate) reaches **0.694 AUC vs. 0.691** for Lending Club's own sub-grade ranking — a from-scratch model matches the lender's pricing signal.
 
 ## Repo structure
 
@@ -105,13 +106,16 @@ ORDER BY l.grade;
 
 ## Modeling
 
-| Model | ROC-AUC | KS | Notes |
-|-------|---------|----|-------|
-| Logistic Regression | `<0.__>` | `<0.__>` | Interpretable baseline; coefficients = default drivers |
-| Gradient Boosting | `<0.__>` | `<0.__>` | Higher accuracy; compared against baseline |
+| Model | ROC-AUC | PR-AUC | KS | Notes |
+|-------|---------|--------|----|-------|
+| Logistic Regression (all features) | 0.708 | 0.368 | 0.303 | Interpretable baseline; coefficients = default drivers |
+| **Gradient Boosting (all features)** | **0.716** | **0.381** | **0.314** | Best model |
+| Gradient Boosting (borrower-only) | 0.694 | 0.359 | 0.279 | No LC grade / interest rate |
+| LC sub-grade benchmark | 0.691 | 0.335 | 0.278 | The lender's own risk ranking |
 
-- Class imbalance handled via `<class weights / resampling>`.
+- Class imbalance (~20% defaults) handled via **class weights** — keeps all 1.35M rows in play and avoids distorting the base rate, unlike resampling.
 - Evaluated with ROC-AUC, precision-recall, confusion matrix (framed as cost of a missed default vs. a rejected good borrower), and the KS statistic.
+- AUCs around 0.71 are in line with published results on this dataset — consumer-credit default is genuinely noisy, which is why banks weigh interpretability and calibration alongside raw discrimination.
 
 ## Dashboard
 
