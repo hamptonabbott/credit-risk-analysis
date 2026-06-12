@@ -1,0 +1,13 @@
+-- 01_schema.sql — CREATE TABLE statements for the normalized loan database.
+--
+-- Will hold a small normalized schema split from the Lending Club flat CSV:
+--
+--   borrowers(borrower_id, annual_income, emp_length, home_ownership, state)
+--   loans(loan_id, borrower_id, amount, grade, sub_grade, int_rate,
+--         purpose, term, issue_date, status)   -- status = 'paid' | 'default'
+--
+-- Designing this split ourselves (the raw download is one flat file) is part
+-- of the SQL showcase: primary keys, a foreign key from loans to borrowers,
+-- and sensible types for each column.
+--
+-- TODO: write the CREATE TABLE statements once the raw CSV columns are confirmed.

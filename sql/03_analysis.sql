@@ -1,0 +1,21 @@
+-- 03_analysis.sql — the analytical queries (the showcase).
+--
+-- Will hold 8–10 queries, each prefixed with a one-line comment naming the
+-- business question it answers. Key findings get captured in the README.
+--
+-- Planned queries:
+--   1. Default rate by loan grade (GROUP BY + aggregate) — the headline
+--      risk relationship.
+--   2. Default rate by loan purpose (segmentation).
+--   3. Default rate by income band (segmentation with CASE).
+--   4. Running/cumulative default rate by issue cohort (window function).
+--   5. Average interest rate vs. realized default rate per grade — does
+--      pricing match risk?
+--   6. Top-risk segments via multi-table JOIN of borrowers × loans
+--      (e.g., grade × home_ownership × income band).
+--   7. Default rate by employment length.
+--   8. Default rate by state (feeds the dashboard map).
+--   9. Loan-to-income ratio deciles vs. default rate (window function NTILE).
+--  10. Term (36 vs 60 months) × grade default comparison.
+--
+-- TODO: write the queries once the schema is loaded.

@@ -1,0 +1,7 @@
+pandas
+scikit-learn
+scipy
+matplotlib
+seaborn
+jupyter
+# SQLite ships with Python (sqlite3 stdlib) — no driver needed.

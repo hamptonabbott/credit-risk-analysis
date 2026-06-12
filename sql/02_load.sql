@@ -1,0 +1,13 @@
+-- 02_load.sql — load the raw CSV into the normalized tables.
+--
+-- Will hold the load pipeline: import the raw Lending Club CSV from data/raw/
+-- into a staging table, clean/normalize values (interest rate strings to
+-- numbers, term "36 months" to 36, map loan_status to 'paid'/'default'),
+-- then INSERT INTO borrowers and loans from staging.
+--
+-- Run with the sqlite3 CLI:
+--   sqlite3 data/loans.db < sql/02_load.sql
+-- (the .import dot-command handles the CSV; a small Python loader is the
+-- fallback if cleaning gets too hairy for pure SQL).
+--
+-- TODO: write the staging .import, cleaning transforms, and INSERT...SELECTs.

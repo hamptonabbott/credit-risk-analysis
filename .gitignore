@@ -1,0 +1,16 @@
+# Raw data — too large for git, see data/README.md for download steps
+data/raw/*
+!data/raw/.gitkeep
+
+# SQLite database built from raw data
+*.db
+
+# Python
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+.venv/
+venv/
+
+# OS
+.DS_Store
