@@ -1,0 +1,13 @@
+purpose,n_loans,default_rate_pct
+small_business,15416,29.7
+moving,9480,23.4
+house,7253,21.9
+medical,15554,21.8
+debt_consolidation,780321,21.1
+other,77875,21.0
+vacation,9065,19.2
+major_purchase,29425,18.6
+home_improvement,87504,17.7
+credit_card,295279,16.9
+car,14585,14.7
+wedding,2294,12.2

@@ -16,10 +16,15 @@ Metrics: ROC-AUC, PR-AUC (average precision), KS statistic, and a confusion
 matrix at the 0.5 threshold framed as caught defaults vs. falsely flagged
 good borrowers.
 
+Also writes the dashboard extracts dashboard/data/model_metrics.csv and
+dashboard/data/top_default_drivers.csv from the evaluation results.
+
 Run:  .venv/bin/python src/train.py
 """
 
+import csv
 import time
+from pathlib import Path
 
 import numpy as np
 from sklearn.ensemble import HistGradientBoostingClassifier
@@ -56,6 +61,8 @@ def evaluate(name, y_true, scores, threshold=0.5):
     if threshold is not None:
         pred = (np.asarray(scores) >= threshold).astype(int)
         tn, fp, fn, tp = confusion_matrix(y_true, pred).ravel()
+        row["precision"] = tp / (tp + fp)
+        row["recall"] = tp / (tp + fn)
         print(f"  At threshold {threshold:.2f}: catches {tp:,}/{tp + fn:,} "
               f"defaults ({100 * tp / (tp + fn):.1f}%) while flagging "
               f"{fp:,} good loans ({100 * fp / (fp + tn):.1f}% of good) — "
@@ -93,6 +100,8 @@ def main():
         print("  Top drivers (standardized coefficients, + raises risk):")
         for name, coef in top_drivers(logit, list(X.columns)):
             print(f"    {coef:+.3f}  {name}")
+        if not borrower_only:
+            drivers = top_drivers(logit, list(X.columns), k=12)
 
         gb = HistGradientBoostingClassifier(class_weight="balanced",
                                             random_state=RANDOM_STATE)
@@ -112,6 +121,25 @@ def main():
     for r in rows:
         print(f"{r['model']:<40} {r['roc_auc']:>8.3f} "
               f"{r['pr_auc']:>8.3f} {r['ks']:>6.3f}")
+
+    # Dashboard extracts (precision/recall at the 0.5 threshold; blank for
+    # the threshold-free sub-grade benchmark).
+    out_dir = Path(__file__).resolve().parents[1] / "dashboard" / "data"
+    out_dir.mkdir(parents=True, exist_ok=True)
+    with open(out_dir / "model_metrics.csv", "w", newline="") as f:
+        w = csv.writer(f)
+        w.writerow(["model", "roc_auc", "pr_auc", "ks", "precision", "recall"])
+        for r in rows:
+            w.writerow([r["model"], f"{r['roc_auc']:.3f}",
+                        f"{r['pr_auc']:.3f}", f"{r['ks']:.3f}",
+                        f"{r['precision']:.3f}" if "precision" in r else "",
+                        f"{r['recall']:.3f}" if "recall" in r else ""])
+    with open(out_dir / "top_default_drivers.csv", "w", newline="") as f:
+        w = csv.writer(f)
+        w.writerow(["feature", "coefficient"])
+        for name, coef in drivers:
+            w.writerow([name, f"{coef:.3f}"])
+    print(f"\nDashboard extracts written to {out_dir}")
 
 
 if __name__ == "__main__":

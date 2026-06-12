@@ -52,14 +52,17 @@ credit-risk-analysis/
 ├── sql/
 │   ├── 01_schema.sql   # CREATE TABLE statements
 │   ├── 02_load.sql     # load CSV into tables
-│   └── 03_analysis.sql # analytical queries (the showcase)
+│   ├── 03_analysis.sql # analytical queries (the showcase)
+│   └── 04_dashboard_extracts.sql # CSV extracts for the dashboard
 ├── notebooks/
 │   ├── eda.ipynb       # exploration + charts
 │   └── model.ipynb     # modeling + evaluation
 ├── src/
 │   ├── features.py     # feature engineering
-│   └── train.py        # train + evaluate
-└── dashboard/          # Tableau file / screenshots
+│   └── train.py        # train + evaluate (also writes model CSVs)
+└── dashboard/
+    ├── data/           # small CSV extracts behind each dashboard view
+    └── TABLEAU_GUIDE.md # step-by-step dashboard build guide
 ```
 
 ## Schema
@@ -123,22 +126,32 @@ Interactive Tableau Public dashboard: **[View it here](<TABLEAU_LINK>)**
 
 ![Dashboard preview](dashboard/preview.png)
 
+Views: default rate by grade vs. the rate charged, risk by purpose and state,
+a grade × home-ownership segment explorer, and the model-performance summary.
+Every view is backed by a CSV in [dashboard/data/](dashboard/data/) exported
+straight from the SQL analysis ([sql/04_dashboard_extracts.sql](sql/04_dashboard_extracts.sql))
+and the model evaluation ([src/train.py](src/train.py)).
+
 ## Reproduce
 
 ```bash
-git clone <repo-url>
+git clone https://github.com/HPAuncc/credit-risk-analysis.git
 cd credit-risk-analysis
 pip install -r requirements.txt
+# then download the raw CSV — see data/README.md
 
-# 1. Build the database
+# 1. Build the database (a few minutes; the raw file is ~1.6 GB)
 sqlite3 data/loans.db < sql/01_schema.sql
 sqlite3 data/loans.db < sql/02_load.sql
 
 # 2. Run the analysis queries
-sqlite3 data/loans.db < sql/03_analysis.sql
+sqlite3 -header -column data/loans.db < sql/03_analysis.sql
 
-# 3. Train and evaluate
+# 3. Train and evaluate (also writes dashboard/data/model_*.csv)
 python src/train.py
+
+# 4. Re-export the dashboard CSVs
+sqlite3 data/loans.db < sql/04_dashboard_extracts.sql
 ```
 
 ## Tech stack

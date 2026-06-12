@@ -1,0 +1,13 @@
+feature,coefficient
+grade_C,0.329
+grade_D,0.306
+grade_E,0.232
+term,0.216
+int_rate,0.206
+grade_B,0.202
+fico,-0.182
+dti,0.151
+log_income,-0.151
+grade_F,0.139
+amount,0.134
+home_ownership_MORTGAGE,-0.084

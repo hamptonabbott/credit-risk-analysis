@@ -1,0 +1,6 @@
+model,roc_auc,pr_auc,ks,precision,recall
+Logistic regression (all features),0.708,0.368,0.303,0.312,0.673
+Gradient boosting (all features),0.716,0.381,0.314,0.317,0.678
+Logistic regression (borrower-only),0.687,0.349,0.270,0.303,0.630
+Gradient boosting (borrower-only),0.694,0.359,0.279,0.305,0.644
+LC sub-grade benchmark,0.691,0.335,0.278,,
