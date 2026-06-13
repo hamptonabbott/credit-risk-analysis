@@ -2,7 +2,7 @@
 
 Predicting consumer-loan default from borrower and loan attributes — built with **SQL**, **Python**, and **Tableau**.
 
-> **TL;DR:** Designed a normalized SQL database of **1.35M** loans, quantified default risk by grade/purpose/segment, and trained models reaching **0.716 ROC-AUC** to predict default — with a borrower-only variant that edges out Lending Club's own sub-grade ranking. [Live dashboard](<TABLEAU_LINK>)
+> **TL;DR:** Designed a normalized SQL database of **1.35M** loans, quantified default risk by grade/purpose/segment, and trained models reaching **0.716 ROC-AUC** to predict default — with a borrower-only variant that edges out Lending Club's own sub-grade ranking. [Live dashboard](https://public.tableau.com/app/profile/hampton.abbott/viz/Credit-RiskDefaultPrediction/Overview)
 
 ---
 
@@ -122,7 +122,7 @@ ORDER BY l.grade;
 
 ## Dashboard
 
-Interactive Tableau Public dashboard: **[View it here](<TABLEAU_LINK>)**
+Interactive Tableau Public dashboard: **[View it here](https://public.tableau.com/app/profile/hampton.abbott/viz/Credit-RiskDefaultPrediction/Overview)**
 
 ![Dashboard preview](dashboard/preview.png)
 
