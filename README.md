@@ -4,6 +4,10 @@ Predicting consumer-loan default from borrower and loan attributes — built wit
 
 > **TL;DR:** Designed a normalized SQL database of **1.35M** loans, quantified default risk by grade/purpose/segment, and trained models reaching **0.716 ROC-AUC** to predict default — with a borrower-only variant that edges out Lending Club's own sub-grade ranking. [Live dashboard](https://public.tableau.com/app/profile/hampton.abbott/viz/Credit-RiskDefaultPrediction/Overview)
 
+[![Credit-Risk Default Prediction — interactive Tableau dashboard showing default rate by loan grade, risk by purpose and state, a grade × home-ownership heatmap, and a model-performance summary](dashboard/preview.png)](https://public.tableau.com/app/profile/hampton.abbott/viz/Credit-RiskDefaultPrediction/Overview)
+
+<p align="center"><em><a href="https://public.tableau.com/app/profile/hampton.abbott/viz/Credit-RiskDefaultPrediction/Overview">↑ Explore the interactive dashboard on Tableau Public →</a></em></p>
+
 ---
 
 ## Business question
@@ -122,9 +126,7 @@ ORDER BY l.grade;
 
 ## Dashboard
 
-Interactive Tableau Public dashboard: **[View it here](https://public.tableau.com/app/profile/hampton.abbott/viz/Credit-RiskDefaultPrediction/Overview)**
-
-![Dashboard preview](dashboard/preview.png)
+Interactive Tableau Public dashboard: **[View it here](https://public.tableau.com/app/profile/hampton.abbott/viz/Credit-RiskDefaultPrediction/Overview)** _(screenshot at the top of this README)._
 
 Views: default rate by grade vs. the rate charged, risk by purpose and state,
 a grade × home-ownership segment explorer, and the model-performance summary.
