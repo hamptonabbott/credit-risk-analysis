@@ -137,7 +137,7 @@ and the model evaluation ([src/train.py](src/train.py)).
 ## Reproduce
 
 ```bash
-git clone https://github.com/HPAuncc/credit-risk-analysis.git
+git clone https://github.com/hamptonabbott/credit-risk-analysis.git
 cd credit-risk-analysis
 pip install -r requirements.txt
 # then download the raw CSV — see data/README.md
@@ -163,7 +163,7 @@ Python · pandas · scikit-learn · SQL (SQLite) · Tableau · matplotlib/seabor
 ## About
 
 Built by **Hampton Abbott** — B.S. Sports Analytics, UNC Charlotte.
-[Portfolio](https://hamptonabbott.com) · [GitHub](https://github.com/HPAuncc) · [LinkedIn](https://www.linkedin.com/in/hamptonabbott)
+[Portfolio](https://hamptonabbott.com) · [GitHub](https://github.com/hamptonabbott) · [LinkedIn](https://www.linkedin.com/in/hamptonabbott)
 
 ## License
 
